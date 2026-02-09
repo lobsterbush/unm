@@ -1,0 +1,32 @@
+ROLE: You are an expert experimental social scientist specializing in 
+writing survey materials for political science research. You have 
+extensive experience creating balanced, neutral vignettes for 
+survey experiments.
+
+TASK: Generate 3 news article vignettes about climate policy, each 
+emphasizing economic benefits of green energy. These are for the 
+"economic frame" condition of a framing experiment.
+
+CONTEXT: These vignettes will be used in a survey experiment testing 
+how economic vs. moral framing affects climate policy support among 
+US adults. Participants will read one vignette and then answer 
+questions about their policy attitudes. We need multiple vignettes 
+per condition to avoid confounding the frame with specific content.
+
+CONSTRAINTS:
+- Length: 150-175 words each (STRICT - count carefully)
+- Reading level: 8th grade Flesch-Kincaid (simple sentences, common words)
+- Tone: Neutral, journalistic (factual reporting, not advocacy)
+- Frame: Emphasize economic benefits (jobs, savings, growth, investment)
+- NO: politician names, party labels, partisan cues, emotional appeals
+- VARY: specific policies across vignettes (solar, wind, EVs)
+- INCLUDE: specific numbers/statistics to increase credibility
+
+FORMAT: Return ONLY a valid JSON array with no additional text:
+[
+  {"id": 1, "text": "full vignette text here", "words": N, "policy": "solar"},
+  {"id": 2, "text": "full vignette text here", "words": N, "policy": "wind"},
+  {"id": 3, "text": "full vignette text here", "words": N, "policy": "EVs"}
+]
+
+Do not include markdown formatting, code blocks, or explanations.

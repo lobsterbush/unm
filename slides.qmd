@@ -1,0 +1,675 @@
+---
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    slide-number: true
+    progress: true
+    chalkboard: false
+    preview-links: auto
+    code-line-numbers: false
+    highlight-style: github
+    transition: fade
+    background-transition: fade
+    incremental: false
+    fig-width: 10
+    fig-height: 6
+    logo: "images/monash-logo.png"
+    scrollable: false
+    smaller: true
+    auto-animate: true
+---
+
+<script>
+// Countdown timer function
+function startCountdown(minutes, elementId) {
+  let timeLeft = minutes * 60;
+  const timer = document.getElementById(elementId);
+  
+  if (!timer) {
+    console.error('Timer element not found:', elementId);
+    return;
+  }
+  
+  const interval = setInterval(() => {
+    const mins = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+    timer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+    
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      timer.textContent = "Time's up!";
+      timer.style.color = "#E53935";
+    }
+    timeLeft--;
+  }, 1000);
+}
+</script>
+
+## {background-color="#006DAE"}
+
+::: {style="text-align: center; color: white; margin-top: 30px;"}
+
+### Experimental Design, Treatment Creation & AI Tools
+
+**POLS 681 Guest Lecture**
+
+<br>
+
+**Charles Crabtree, PhD**
+
+Senior Lecturer, School of Social Sciences, Monash University
+
+K-Club Professor, University College, Korea University
+
+<br>
+
+February 2026
+
+![](images/monash-logo-white.png){width="180" style="margin-top: 30px;"}
+
+:::
+
+---
+
+## Today's Roadmap (105 min)
+
+::: {style="font-size: 26px;"}
+| Part | Topic | Time |
+|------|-------|------|
+| **1** | Experimental Design Foundations | 25 min |
+| **2** | Treatment Creation & Construct Validity | 35 min |
+| | *Break* | 10 min |
+| **3** | AI Agents for Experimental Research | 25 min |
+| **4** | Hands-On Exercise & Discussion | 10 min |
+
+::: {style="background-color: #E8F4F8; padding: 15px; border-radius: 8px; border-left: 4px solid #006DAE; margin-top: 15px;"}
+🎯 **Goal**: Bridge causal inference foundations → practical design → AI tools
+
+**Running example**: Generating vignettes for a framing experiment on climate policy
+:::
+:::
+
+---
+
+## Part 1: Experimental Design Foundations {background-color="#006DAE" style="color: white;"}
+
+::: {style="text-align: left; margin-top: 150px; margin-left: 40px;"}
+25 minutes
+:::
+
+---
+
+## From Potential Outcomes to Experiments
+
+::: {style="font-size: 26px;"}
+**You've learned**: τᵢ = Yᵢ(1) - Yᵢ(0) — but we never observe both potential outcomes
+
+**How randomization solves this:**
+
+| | Without Randomization | With Randomization |
+|--|----------------------|--------------------|
+| **Problem** | E[Y(0)\|T=1] ≠ E[Y(0)\|T=0] | Groups comparable in expectation |
+| **Threat** | Selection bias, confounding | None (in expectation) |
+| **Solution** | Control for observables | Unnecessary—handled by design |
+
+::: {style="background-color: #FFF3E0; padding: 12px; border-radius: 8px; border-left: 4px solid #FF9800; margin-top: 10px;"}
+⚡ **Key**: Randomization creates the counterfactual through group equivalence
+:::
+:::
+
+---
+
+## Why Experiments for Causal Inference?
+
+::: {style="font-size: 28px;"}
+**Observational approaches require strong assumptions:**
+
+::: {.columns}
+::: {.column width="50%"}
+**Matching/Subclassification**
+
+- Assumes no unmeasured confounds
+- Selection on observables only
+:::
+
+::: {.column width="50%"}
+**Difference-in-Differences**
+
+- Assumes parallel trends
+- No anticipation effects
+:::
+:::
+
+::: {.fragment}
+::: {style="background-color: #E8F4F8; padding: 20px; border-radius: 10px; border-left: 5px solid #006DAE; margin-top: 30px;"}
+✅ **Experiments**: Randomization ensures E[Y(0)|T=1] = E[Y(0)|T=0]
+
+No selection bias, no omitted variable bias—by design
+:::
+:::
+:::
+
+---
+
+## Experimental Design Types
+
+::: {style="font-size: 26px;"}
+**Randomized Groups Design — One IV**
+
+![](images/independent-groups.png){width="450" fig-align="center"}
+
+- Treatment vs. Control (or multiple treatment arms)
+- Random assignment ensures comparability
+- **Our example**: Economic frame vs. Control frame on climate attitudes
+:::
+
+---
+
+## Factorial Designs — Multiple IVs
+
+::: {style="font-size: 26px;"}
+![](images/factorial-design.png){width="400" fig-align="center"}
+
+**Advantages:**
+
+- Test main effects of each factor
+- Test interactions (moderation)
+- More efficient than running separate experiments
+
+**Our example extended**: 2×2 design (Economic vs. Moral frame) × (Expert vs. Lay source)
+:::
+
+---
+
+## Factorial Example: 2×2 Design
+
+::: {style="font-size: 24px;"}
+|  | **Expert Source** | **Layperson Source** |
+|--|-------------------|---------------------|
+| **Economic Frame** | n=100 | n=100 |
+| **Moral Frame** | n=100 | n=100 |
+
+**Three questions answered:**
+
+1. **Main effect of frame**: Economic vs. moral → attitudes? *(average across sources)*
+2. **Main effect of source**: Expert vs. lay credibility? *(average across frames)*  
+3. **Interaction**: Does frame effectiveness depend on source?
+
+::: {style="background-color: #E8F4F8; padding: 10px; border-radius: 6px; border-left: 3px solid #006DAE; margin-top: 8px;"}
+💡 **Power note**: Need ~400 total for main effects; ~1,600 for interactions
+:::
+:::
+
+---
+
+## 📝 Padlet #1: Your Research Question *(10 min)* {background-color="#E8F4F8"}
+
+::: {style="font-size: 22px;"}
+::: {.columns}
+::: {.column width="65%"}
+::: {style="background-color: white; padding: 15px; border-radius: 8px; border-left: 4px solid #006DAE;"}
+**Post to Padlet** → [padlet.com/crabtree/unm1](https://padlet.com/crabtree/unm1)
+
+1. **Research question**: What causal effect do you want to estimate?
+2. **Treatment**: What manipulation would test this?
+3. **Outcome**: What would you measure?
+4. **Design**: Randomized groups or factorial?
+:::
+
+**Example post**: *"Does economic framing increase climate policy support? Treatment: economic vs. moral frame. Outcome: 7-pt support scale. Design: 2×2 with source credibility."*
+:::
+
+::: {.column width="35%"}
+![](padlet/QR Code 1.png){width="220" fig-align="center"}
+:::
+:::
+
+<div style="text-align: center; margin-top: 10px;">
+<button onclick="startCountdown(10, 'padlet1-timer')" style="padding: 8px 16px; font-size: 16px; background-color: #006DAE; color: white; border: none; border-radius: 5px;">Start Timer</button>
+<span id="padlet1-timer" style="font-size: 32px; margin-left: 15px; font-weight: bold; color: #006DAE;">10:00</span>
+</div>
+:::
+
+---
+
+## Part 2: Treatment Creation & Construct Validity {background-color="#006DAE" style="color: white;"}
+
+::: {style="text-align: left; margin-top: 150px; margin-left: 40px;"}
+35 minutes
+:::
+
+---
+
+## What Makes a Good Treatment?
+
+::: {style="font-size: 24px;"}
+**The goal**: Manipulate *exactly* what you intend—nothing more, nothing less
+
+| Confound Type | Example | How to Check |
+|--------------|---------|-------------|
+| 📏 **Length** | Treatment longer than control | Word count across conditions |
+| 📖 **Complexity** | Different reading levels | Flesch-Kincaid scores |
+| 😤 **Emotional tone** | Varying intensity | Sentiment analysis |
+| 👤 **Demographics** | Names signal race/gender | Audit for implicit cues |
+
+::: {style="background-color: #FFF3E0; padding: 10px; border-radius: 6px; border-left: 3px solid #FF9800; margin-top: 10px;"}
+⚠️ **The treatment package problem**: Your vignette = intended manipulation + all these confounds bundled together
+:::
+:::
+
+---
+
+## Information Equivalence
+
+::: {style="font-size: 24px;"}
+**The core principle**: Conditions should differ *only* in the intended manipulation
+
+**Example vignette** (economic frame):
+
+> *"A new solar installation program in Arizona has created 2,500 jobs and is projected to save households $800 annually on electricity bills..."*
+
+| | **Economic Frame** | **Moral Frame** |
+|--|-------------------|----------------|
+| Topic | Solar program in Arizona | Solar program in Arizona |
+| Word count | 165 words | 165 words |
+| Reading level | 8th grade | 8th grade |
+| **Only difference** | Jobs, savings, growth | Responsibility, stewardship |
+
+::: {style="background-color: #E8F4F8; padding: 10px; border-radius: 6px; border-left: 3px solid #006DAE; margin-top: 10px;"}
+💡 If conditions differ on *anything else*, you can't attribute effects to your treatment
+:::
+:::
+
+---
+
+## The Treatment Package Problem (Porter & Velez 2022)
+
+::: {style="font-size: 24px;"}
+**Problem**: Even with information equivalence, one vignette bundles treatment with idiosyncratic content
+
+That Arizona solar vignette includes:
+
+- The *economic frame* (what you intend to test)
+- But also: Arizona specifically, solar specifically, "$800" specifically, your exact wording...
+
+**Can you attribute the effect to the frame? Or to Arizona? Or to solar?**
+
+**Solution**: Multiple vignettes per condition (3-5 each)
+
+| Economic Frame Vignettes | Moral Frame Vignettes |
+|-------------------------|----------------------|
+| Arizona solar + jobs | Arizona solar + responsibility |
+| Texas wind + savings | Texas wind + stewardship |
+| Michigan EVs + growth | Michigan EVs + future generations |
+
+→ Average effect isolates the *frame* from idiosyncratic features
+:::
+
+---
+
+## Construct Validity for Treatments
+
+::: {style="font-size: 24px;"}
+**Core question**: Are we manipulating what we think we're manipulating?
+
+| Approach | Method | When to Use |
+|----------|--------|-------------|
+| **Expert review** | Blind condition identification | Early development |
+| **Pilot testing** | Manipulation checks (N=30-50) | Pre-registration |
+| **Automated checks** | LLM ratings of dimensions | Batch validation |
+
+**Manipulation check example:**
+
+*"To what extent did this article emphasize economic benefits? (1-7)"*
+
+- Economic frame should score significantly higher than moral frame
+- If not, treatment isn't working—iterate before fielding
+:::
+
+---
+
+## Quality Control Checklist
+
+::: {style="font-size: 24px;"}
+**Before fielding** (automate these with R script):
+
+| Check | Target | Tool |
+|-------|--------|------|
+| ✅ Length | ±10% across conditions | `stringr::str_count()` |
+| ✅ Reading level | Same grade level | `quanteda.textstats` |
+| ✅ Sentiment | Matched or intentionally varied | `tidytext` |
+| ✅ Manipulation | Pilot shows intended difference | Survey |
+| ✅ Realism | Naive readers believe it | Qualitative check |
+
+::: {style="background-color: #FFF3E0; padding: 10px; border-radius: 6px; border-left: 3px solid #FF9800; margin-top: 8px;"}
+⚠️ **LLM pitfall**: Generated text often *too polished*—add natural variation
+:::
+:::
+
+---
+
+## Face Validity
+
+::: {style="font-size: 24px;"}
+**Does it look/sound real?**
+
+| Red Flag | Example | Fix |
+|----------|---------|-----|
+| 🚫 Unnatural language | "As a concerned citizen..." | Use prompt: "casual tone" |
+| 🚫 Too perfect | No hedging, perfect grammar | Add natural variation |
+| 🚫 Implausible | Would this really happen? | Ground in real examples |
+
+**Quick tests:**
+
+- Read aloud—does it sound like a real article?
+- Show to naive reader—"Is this real or AI-generated?"
+- Side-by-side with actual news articles
+:::
+
+---
+
+## {background-color="#006DAE"}
+
+::: {style="text-align: left; color: white; margin-top: 150px; margin-left: 40px;"}
+### BREAK
+
+**10 minutes**
+
+Return at [time]
+:::
+
+---
+
+## Part 3: AI Agents for Experimental Research {background-color="#006DAE" style="color: white;"}
+
+::: {style="text-align: left; margin-top: 150px; margin-left: 40px;"}
+25 minutes
+:::
+
+---
+
+## What's an AI Agent?
+
+::: {style="font-size: 24px;"}
+::: {.columns}
+::: {.column width="48%"}
+**💬 Chat Interface** (ChatGPT web)
+
+1. You ask question
+2. Get answer
+3. Copy code → paste → run
+4. **You execute everything**
+
+*Assistant role*
+:::
+
+::: {.column width="48%"}
+**🤖 AI Agent** (Warp, Claude Code)
+
+1. You give high-level goal
+2. Agent plans steps
+3. Agent runs commands
+4. **It does the work**
+
+*Collaborator role*
+:::
+:::
+
+::: {style="background-color: #E8F4F8; padding: 10px; border-radius: 6px; border-left: 3px solid #006DAE; margin-top: 10px;"}
+💡 **Key difference**: Agents have "hands on keyboard"—they execute, not just advise
+:::
+:::
+
+---
+
+## When to Use Each Paradigm
+
+::: {style="font-size: 24px;"}
+**AI agents operate your computer.** They create files, run scripts, move data, execute commands. It's a new way of controlling your system.
+
+| Task | **Chatbot** (no system access) | **Agent** (runs your computer) |
+|------|-------------------------------|-------------------------------|
+| Design 1 vignette | ✅ Iterate with feedback | |
+| Generate 100 vignettes | | ✅ Batch process |
+| Debug unexpected output | ✅ Step through | |
+| Run validation pipeline | | ✅ Executes R scripts |
+| Learn new technique | ✅ See each step | |
+
+::: {style="background-color: #E8F4F8; padding: 10px; border-radius: 6px; border-left: 3px solid #006DAE; margin-top: 10px;"}
+🎯 **Rule of thumb**: Use chatbots when you don't want to change files; use agents when you need automation
+:::
+:::
+
+---
+
+## Prompt Engineering: 5-Part Anatomy
+
+::: {style="font-size: 24px;"}
+| Part | Purpose | Example |
+|------|---------|--------|
+| **1. Role** | Set expertise | "You are an experimental social scientist..." |
+| **2. Task** | What to produce | "Generate 3 vignettes about climate policy..." |
+| **3. Context** | Why it matters | "For a survey experiment on framing effects..." |
+| **4. Constraints** | Rules to follow | "150-200 words, 8th grade, neutral tone" |
+| **5. Format** | Output structure | "Return as JSON with fields: id, text, word_count" |
+
+::: {style="background-color: #E8F4F8; padding: 10px; border-radius: 6px; border-left: 3px solid #006DAE; margin-top: 10px;"}
+💡 **Constraints are key**: This is where you prevent confounds
+:::
+:::
+
+---
+
+## Example: Complete Prompt
+
+::: {style="font-size: 20px;"}
+```
+ROLE: You are an expert experimental social scientist specializing in 
+survey materials for political science research.
+
+TASK: Generate 3 news vignettes about climate policy emphasizing 
+economic benefits of green energy.
+
+CONTEXT: Survey experiment testing economic vs. moral framing effects 
+on climate policy support among US adults.
+
+CONSTRAINTS:
+- Length: 150-175 words each (strict)
+- Reading level: 8th grade Flesch-Kincaid
+- Tone: Neutral, journalistic (no advocacy language)
+- No politician names or partisan cues
+- Vary policies: solar, wind, EVs
+
+FORMAT: JSON array: [{"id": 1, "text": "...", "words": N, "policy": "..."}]
+```
+:::
+
+→ See `code/generate_vignettes.R` for implementation
+
+---
+
+## 💻 Live Demo: Treatment Generation
+
+::: {style="font-size: 24px;"}
+**Demo workflow** (backup: `code/generate_vignettes.R`):
+
+- **Warp prompt**: "Generate 6 vignettes using the prompt in `prompts/economic_frame.txt`"
+- **Validation**: Run `code/validate_vignettes.R`
+  - Word counts within range?
+  - Reading levels matched?
+  - Sentiment balanced?
+- **Iterate**: Fix any issues, regenerate
+
+::: {style="background-color: #FFF3E0; padding: 10px; border-radius: 6px; border-left: 3px solid #FF9800; margin-top: 10px;"}
+⚠️ **Key principle**: Generate → Validate → Iterate (never trust raw output)
+:::
+:::
+
+---
+
+## Validation Workflow
+
+::: {style="font-size: 22px;"}
+**Automated checks** (`code/validate_vignettes.R`):
+
+```r
+# Check word counts
+vignettes |> mutate(words = str_count(text, "\\w+")) |>
+  summarize(mean = mean(words), sd = sd(words), range = max(words) - min(words))
+
+# Check reading level
+library(quanteda.textstats)
+textstat_readability(corpus(vignettes$text), measure = "Flesch.Kincaid")
+```
+
+**LLM validation prompt** (rate dimensions 1-7):
+
+- Economic emphasis?
+- Moral emphasis?
+- Emotional intensity?
+- Political lean?
+
+**Document everything** for pre-registration and transparency
+:::
+
+---
+
+## Part 4: Hands-On Exercise & Discussion {background-color="#006DAE" style="color: white;"}
+
+::: {style="text-align: left; margin-top: 150px; margin-left: 40px;"}
+10 minutes
+:::
+
+---
+
+## 📝 Padlet #2: Write Your Prompt {background-color="#E8F4F8"}
+
+::: {style="font-size: 22px;"}
+::: {.columns}
+::: {.column width="65%"}
+::: {style="background-color: white; padding: 12px; border-radius: 8px; border-left: 4px solid #006DAE;"}
+**Post to Padlet** → [padlet.com/crabtree/unm2](https://padlet.com/crabtree/unm2)
+
+Write a 5-part prompt for YOUR research question:
+
+**Role** | **Task** | **Context** | **Constraints** | **Format**
+:::
+
+**Checklist** — Does your prompt specify:
+
+- ✅ Word count range?
+- ✅ Reading level?
+- ✅ Tone?
+- ✅ What to avoid?
+- ✅ Output structure?
+:::
+
+::: {.column width="35%"}
+![](padlet/QR Code 2.png){width="220" fig-align="center"}
+:::
+:::
+
+<div style="text-align: center; margin-top: 10px;">
+<button onclick="startCountdown(10, 'padlet2-timer')" style="padding: 8px 16px; font-size: 16px; background-color: #006DAE; color: white; border: none; border-radius: 5px;">Start Timer</button>
+<span id="padlet2-timer" style="font-size: 32px; margin-left: 15px; font-weight: bold; color: #006DAE;">10:00</span>
+</div>
+:::
+
+---
+
+## Key Takeaways
+
+::: {style="font-size: 24px;"}
+1. **Randomization solves the fundamental problem** — no confound control needed
+
+2. **Treatment packages are dangerous** — use multiple vignettes per condition
+
+3. **Construct validity requires checking** — expert review + pilots + automated
+
+4. **AI agents accelerate generation** — but always validate (generate → check → iterate)
+
+5. **5-part prompts prevent confounds** — constraints are where validity lives
+
+::: {style="background-color: #E8F4F8; padding: 10px; border-radius: 6px; border-left: 3px solid #006DAE; margin-top: 12px;"}
+📦 **Take with you**: `code/generate_vignettes.R` + `code/validate_vignettes.R` + `prompts/`
+:::
+:::
+
+---
+
+## Q&A
+
+::: {style="font-size: 26px;"}
+**Questions?**
+
+- Experimental design?
+- Treatment creation?
+- AI tools?
+- Validity?
+
+::: {style="background-color: #E8F4F8; padding: 15px; border-radius: 8px; border-left: 4px solid #006DAE; margin-top: 20px;"}
+💬 **Discussion**: What's one thing you'll apply to your research?
+:::
+
+**Next steps for you:**
+
+- Pre-register your design (OSF, AsPredicted)
+- Use the R scripts to generate + validate materials
+- Pilot test with manipulation checks before fielding
+:::
+
+---
+
+## Resources
+
+::: {style="font-size: 22px;"}
+**Key readings:**
+
+- Porter & Velez (2022). Placebo Selection in Survey Experiments. *Pol. Analysis*
+- Velez & Liu (2025). Tailored Experiments & Polarization. *APSR*
+
+**Tools:**
+
+- [warp.dev](https://www.warp.dev)
+- [code.claude.com](https://code.claude.com)
+- [chatgpt.com/features/codex](https://chatgpt.com/features/codex)
+
+**Today's code:**
+
+```
+code/generate_vignettes.R    # Generation with OpenAI API
+code/validate_vignettes.R    # Automated validation checks  
+prompts/economic_frame.txt   # Example 5-part prompt
+prompts/warp_commands.md     # Warp agent prompts
+```
+
+→ GitHub: [github.com/crabtree-charles/unm](https://github.com/crabtree-charles/unm)
+:::
+
+---
+
+## {background-color="#006DAE"}
+
+::: {style="text-align: center; color: white; margin-top: 80px;"}
+
+### Thank You!
+
+<br>
+
+**Charles Crabtree**
+
+Senior Lecturer, School of Social Sciences, Monash University
+
+K-Club Professor, University College, Korea University
+
+<br>
+
+📧 charles.crabtree@monash.edu
+
+🌐 charlescrabtree.com
+
+<br>
+
+![](images/monash-logo-white.png){width="200" style="margin-top: 40px;"}
+
+:::

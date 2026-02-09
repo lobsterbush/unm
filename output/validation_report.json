@@ -1,0 +1,22 @@
+{
+  "timestamp": ["2026-02-10 07:30:08"],
+  "n_vignettes": [3],
+  "word_count": {
+    "target": ["150 - 175"],
+    "mean": [124.3333],
+    "sd": [8.3267],
+    "pass": [0]
+  },
+  "reading_level": {
+    "target_grade": ["6 - 10"],
+    "mean_grade": [13.0158],
+    "sd_grade": [0.6814],
+    "pass": [0]
+  },
+  "sentiment": {
+    "mean": [11.3333],
+    "sd": [2.0817],
+    "pass": [3]
+  },
+  "all_pass": [false]
+}
