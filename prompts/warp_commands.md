@@ -51,18 +51,26 @@ conditions are balanced on these dimensions.
 
 ---
 
-## Demo 5: LLM-Based Validation
+## Demo 5: LLM Substantive Validation
 
 **Warp prompt:**
 ```
-For each vignette in output/vignettes_economic.json, use the OpenAI API to 
-rate it on these dimensions (1-7 scale):
-1. Economic emphasis
-2. Moral emphasis  
-3. Emotional intensity
-4. Political lean (1=liberal, 7=conservative)
+Run code/validate_vignettes.R with the OPENAI_API_KEY set. This will run 
+LLM validation that rates each vignette on:
+1. Economic emphasis (should be high for economic frame)
+2. Moral emphasis (should be low for economic frame)
+3. Policy match (does it focus on intended policy?)
+4. Neutrality (journalistic tone?)
+5. Partisan cues (should have none)
 
-Save results to output/llm_validation.json
+Show me which vignettes pass and any flags.
+```
+
+**Alternative - manual LLM validation:**
+```
+For each vignette in output/vignettes_economic_frame.json, use the OpenAI API 
+to rate it on economic_emphasis, moral_emphasis, policy_match, neutrality, 
+and partisan_cues (1-7 scale). Flag any concerns.
 ```
 
 ---
